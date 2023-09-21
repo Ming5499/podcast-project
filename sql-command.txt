@@ -1,0 +1,67 @@
+CREATE TABLE Customer (
+  customer_id SERIAL PRIMARY KEY,
+  customer_name VARCHAR(100) NOT NULL,
+  age INT,
+  address VARCHAR(100),
+  phone VARCHAR(100),
+  email VARCHAR(100)
+);
+
+CREATE TABLE IF NOT EXISTS Orders (
+  order_id SERIAL PRIMARY KEY,
+  customer_id INT NOT NULL,
+  order_date DATE,
+  total_price DECIMAL(10,2),
+  FOREIGN KEY (customer_id) REFERENCES Customer(customer_id)
+);
+
+CREATE TABLE IF NOT EXISTS Podcast (
+  podcast_id SERIAL PRIMARY KEY,
+  podcast_name VARCHAR(100) NOT NULL,
+  price DECIMAL(10,2)
+);
+
+CREATE TABLE IF NOT EXISTS Orders_Detail (
+  order_id SERIAL PRIMARY KEY,
+  podcast_id INT NOT NULL,
+  quantity INT,
+  FOREIGN KEY (order_id) REFERENCES Orders(order_id),
+  FOREIGN KEY (podcast_id) REFERENCES Podcast(podcast_id)
+);
+
+CREATE TABLE IF NOT EXISTS episodes (
+ link TEXT PRIMARY KEY,
+ title TEXT,
+ filename TEXT,
+ published TEXT,
+ description TEXT,
+ transcript TEXT
+); 
+---------------------------------------------------------------------------------------------------
+CREATE DATA WAREHOUSE
+
+
+CREATE TABLE dimCustomer (
+  customer_id INT PRIMARY KEY,
+  customer_name VARCHAR(100) NOT NULL,
+  age INT,
+  address VARCHAR(100),
+  phone VARCHAR(100),
+  email VARCHAR(100)
+);
+
+CREATE TABLE dimPodcast (
+  podcast_id INT PRIMARY KEY,
+  podcast_name VARCHAR(100) NOT NULL,
+  price DECIMAL(10,2)
+);
+
+-- Order fact table
+CREATE TABLE factOrder (
+  order_id INT PRIMARY KEY,
+  customer_id INT NOT NULL,
+  order_date DATE,
+  total_price DECIMAL(10,2),
+  FOREIGN KEY (customer_id) REFERENCES dimCustomer(customer_id),
+  FOREIGN KEY (podcast_id) REFERENCES dimPodcast(podcast_id)
+);

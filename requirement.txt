@@ -1,0 +1,9 @@
+Airflow 2.3+
+Python 3.8+
+MongoDB
+Python packages
+pandas
+sqlite3
+xmltodict
+requests
+pymongo
