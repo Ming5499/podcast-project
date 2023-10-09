@@ -44,30 +44,3 @@ CREATE TABLE IF NOT EXISTS factOrder (
   FOREIGN KEY (podcast_id) REFERENCES dimPodcast(podcast_id)
 );
 ''')
-
-# Copy the data from the customer table to the customer dimension table
-cur.execute('''
-COPY dimCustomer (customer_id, customer_name, age, address, phone, email)
-FROM STDIN;
-''')
-
-with open('customer.csv', 'r') as f:
-    cur.copy_from(f, 'dimCustomer', null='')
-
-# Copy the data from the podcast table to the podcast dimension table
-cur.execute('''
-COPY podcast_dim (podcast_id, podcast_name, price)
-FROM STDIN;
-''')
-
-with open('podcast.csv', 'r') as f:
-    cur.copy_from(f, 'podcast_dim', null='')
-
-# Copy the data from the orders table to the order fact table
-cur.execute('''
-COPY order_fact (order_id, customer_id, order_date, total_price)
-FROM STDIN;
-''')
-
-with open('orders.csv', 'r') as f:
-    cur.copy_from(f, 'order_fact', null='')

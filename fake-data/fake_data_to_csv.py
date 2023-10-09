@@ -8,7 +8,7 @@ def generate_fake_customer_data(batch_size, num_batches):
     fake = Faker()
 
     # Define the fields you want in your CSV
-    fields = ['name', 'age', 'address', 'sex', 'email', 'job']
+    fields = ['name', 'age', 'address', 'phone', 'email']
 
     # Generate and save customer data in batches
     for batch_num in range(num_batches):
@@ -19,9 +19,8 @@ def generate_fake_customer_data(batch_size, num_batches):
                 'name': fake.name(),
                 'age': fake.random_int(min=12, max=65, step=1),
                 'address': fake.address(),
-                'sex': fake.random_element(elements=('Male', 'Female')),
+                'phone': fake.random_element(elements=('Male', 'Female')),
                 'email': fake.email(),
-                'job': fake.job()
             }
             fake_data_list.append(fake_data)
 
@@ -132,4 +131,6 @@ def generate_fake_orders_detail_data(max_order_id, max_podcast_id, output_file_p
 generate_fake_customer_data(batch_size=20000, num_batches=5)
 generate_fake_order_data(batch_size=20000, num_batches=5)
 generate_fake_podcast_data(max_podcast_id=50, titles_file_path='csv/titles.csv', output_file_path='csv/fake_podcast_data.csv')
-generate_fake_orders_detail_data(max_order_id=20000, max_podcast_id=50, output_file_path='fake_orders_detail_data.csv')
+generate_fake_orders_detail_data(max_order_id=20000, max_podcast_id=50, output_file_path='csv/fake_orders_detail_data.csv')
+
+

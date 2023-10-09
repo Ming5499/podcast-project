@@ -1,3 +1,19 @@
+-- Database: podcast
+
+-- DROP DATABASE IF EXISTS podcast;
+
+CREATE DATABASE podcast
+    WITH 
+    OWNER = postgres
+    ENCODING = 'UTF8'
+    LC_COLLATE = 'English_United States.1252'
+    LC_CTYPE = 'English_United States.1252'
+    TABLESPACE = pg_default
+    CONNECTION LIMIT = -1;
+
+
+USE podcast;
+
 CREATE TABLE Customer (
   customer_id SERIAL PRIMARY KEY,
   customer_name VARCHAR(100) NOT NULL,
@@ -37,31 +53,3 @@ CREATE TABLE IF NOT EXISTS episodes (
  description TEXT,
  transcript TEXT
 ); 
----------------------------------------------------------------------------------------------------
-CREATE DATA WAREHOUSE
-
-
-CREATE TABLE dimCustomer (
-  customer_id INT PRIMARY KEY,
-  customer_name VARCHAR(100) NOT NULL,
-  age INT,
-  address VARCHAR(100),
-  phone VARCHAR(100),
-  email VARCHAR(100)
-);
-
-CREATE TABLE dimPodcast (
-  podcast_id INT PRIMARY KEY,
-  podcast_name VARCHAR(100) NOT NULL,
-  price DECIMAL(10,2)
-);
-
--- Order fact table
-CREATE TABLE factOrder (
-  order_id INT PRIMARY KEY,
-  customer_id INT NOT NULL,
-  order_date DATE,
-  total_price DECIMAL(10,2),
-  FOREIGN KEY (customer_id) REFERENCES dimCustomer(customer_id),
-  FOREIGN KEY (podcast_id) REFERENCES dimPodcast(podcast_id)
-);

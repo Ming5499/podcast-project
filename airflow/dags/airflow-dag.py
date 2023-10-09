@@ -3,7 +3,7 @@ from airflow import DAG
 from airflow.operators.python import PythonOperator
 
 from datetime import datetime, timedelta
-from function import *
+from main.function import *
 
 # Define your DAG's default arguments
 default_args = {

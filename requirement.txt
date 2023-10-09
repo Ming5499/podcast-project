@@ -7,3 +7,6 @@ sqlite3
 xmltodict
 requests
 pymongo
+faker
+psycopg2
+boto3

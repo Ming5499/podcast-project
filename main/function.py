@@ -81,30 +81,5 @@ def download_episodes(episodes):
 
 
 
-def speech_to_text(audio_files, new_episodes):
-    hook = SqliteHook(sqlite_conn_id="podcasts")
-    untranscribed_episodes = hook.get_pandas_df("SELECT * from episodes WHERE transcript IS NULL;")
-
-    model = Model(model_name="vosk-model-en-us-0.22-lgraph")
-    rec = KaldiRecognizer(model, FRAME_RATE)
-    rec.SetWords(True)
-
-    for index, row in untranscribed_episodes.iterrows():
-        print(f"Transcribing {row['filename']}")
-        filepath = os.path.join(EPISODE_FOLDER, row["filename"])
-        mp3 = AudioSegment.from_mp3(filepath)
-        mp3 = mp3.set_channels(1)
-        mp3 = mp3.set_frame_rate(FRAME_RATE)
-
-        step = 20000
-        transcript = ""
-        for i in range(0, len(mp3), step):
-            print(f"Progress: {i/len(mp3)}")
-            segment = mp3[i:i+step]
-            rec.AcceptWaveform(segment.raw_data)
-            result = rec.Result()
-            text = json.loads(result)["text"]
-            transcript += text
-        hook.insert_rows(table='episodes', rows=[[row["link"], transcript]], target_fields=["link", "transcript"], replace=True)
 
 
