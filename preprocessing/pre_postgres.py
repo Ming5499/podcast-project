@@ -1,18 +1,18 @@
 import psycopg2
-
+from utils.constants import * 
 
 def db_connect():
     conn = psycopg2.connect(
-        dbname='podcast',
-        user='postgres',
-        password='123456',
-        host='localhost'
+        dbname= DATABASE_NAME,
+        user= DATABASE_USER,
+        password= DATABASE_PASSWORD,
+        host= DATABASE_HOST
     )
 
     return conn
 
 
-def create_table():
+def create_fakedata():
     #Create table
     conn = db_connect()
     cur = conn.cursor()
@@ -67,4 +67,3 @@ def create_table():
     conn.close()
     
     
-create_table()

@@ -1,12 +1,13 @@
 import boto3
 import psycopg2
 from preprocessing.pre_postgres import *
+from utils.constants import *
 
 redshift = boto3.client('redshift')
 response = redshift.describe_clusters()
 cluster_info = response['Clusters'][0]
 
-host = 'redshift-cluster-2.ctlwvzbuur6m.ap-north-1.redshift.amazonaws.com'
+host = DATABASE_HOST
 database = 'podcast'
 user = 'anhminh'
 password = 'Password123'

@@ -9,8 +9,7 @@ from airflow.providers.sqlite.operators.sqlite import SqliteOperator
 from airflow.providers.sqlite.hooks.sqlite import SqliteHook
 
 
-from vosk import Model, KaldiRecognizer
-from pydub import AudioSegment
+
 
 PODCAST_URL = "https://www.marketplace.org/feed/podcast/marketplace/"
 EPISODE_FOLDER = "episodes"
@@ -18,7 +17,7 @@ FRAME_RATE = 16000
 
 
 
-def create_database():
+def create_podcast():
     create_database = PostgresOperator(
         task_id='create_table_postgres',
         sql="""

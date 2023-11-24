@@ -1,5 +1,6 @@
 import psycopg2
 import csv
+from utils.constants import *
 
 db_params = {
     'host': 'localhost',
