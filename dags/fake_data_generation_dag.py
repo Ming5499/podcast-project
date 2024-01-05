@@ -6,10 +6,15 @@ from datetime import datetime, timedelta
 
 default_args = {
     'owner': 'airflow',
-    'start_date': datetime(2023, 9, 15),
     'depends_on_past': False,
-    'retries': 1,
+    'start_date': datetime(2023, 9, 15),
+    'email': ['npam5499l@gmail.com'],
+    'email_on_failure': False,
+    'email_on_retry': False,
+    'retries': 2,
+    'retry_delay': timedelta(minutes=2)
 }
+
 dag = DAG(
     'fake_data_generation',
     default_args=default_args,
@@ -46,4 +51,5 @@ generate_fake_orders_detail_data = PythonOperator(
     dag=dag
 )
 
+# Set task dependencies
 generate_fake_customer_data >> generate_fake_order_data >> generate_fake_podcast_data >> generate_fake_orders_detail_data

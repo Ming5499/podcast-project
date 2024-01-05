@@ -3,10 +3,10 @@ import csv
 from utils.constants import *
 
 db_params = {
-    'host': 'localhost',
-    'database': 'podcast',
-    'user': 'postgres',
-    'password': '123456',
+    'host': DATABASE_HOST,
+    'database': DATABASE_NAME,
+    'user': DATABASE_USER,
+    'password': DATABASE_PASSWORD,
 }
 
 #load CSV into PostgreSQL table
@@ -21,19 +21,27 @@ def load_csv_to_postgres(csv_file, table_name, conn, has_header=True):
         print(f"Data from {csv_file} loaded into {table_name}")
     except Exception as e:
         print(f"Error loading data into {table_name}: {e}")
-try:
+        
+
+
+# Define the custom PythonOperator
+def load_all_csv_to_postgres():
     # Establish a connection to the PostgreSQL database
     conn = psycopg2.connect(**db_params)
 
-    # Load CSV files into PostgreSQL tables
-    load_csv_to_postgres('csv/fake_customer_data_batch_1.csv', 'Customer', conn)
-    load_csv_to_postgres('csv/fake_podcast_data.csv', 'Podcast', conn)
-    load_csv_to_postgres('csv/fake_orders_data_batch_1.csv', 'Orders', conn)
-    load_csv_to_postgres('csv/fake_orders_detail_data.csv', 'Orders_Detail', conn)
+    csv_files = [
+        ('data/fake_customer_data_batch_1.csv', 'Customer'),
+        ('data/fake_podcast_data.csv', 'Podcast'),
+        ('data/fake_orders_data_batch_1.csv', 'Orders'),
+        ('data/fake_orders_detail_data.csv', 'Orders_Detail'),
+    ]
 
-except psycopg2.Error as e:
-    print(f"Error connecting to PostgreSQL: {e}")
-finally:
+    # Load CSV files into PostgreSQL tables
+    for csv_file, table_name in csv_files:
+        load_csv_to_postgres(csv_file, table_name, conn)
+
+    conn.commit()
+    print(f"Data from all CSV files loaded into their tables")
+
     if 'conn' in locals() and conn:
         conn.close()
-

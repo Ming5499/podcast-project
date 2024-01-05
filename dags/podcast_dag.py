@@ -3,7 +3,7 @@ from airflow import DAG
 from airflow.operators.python import PythonOperator
 
 from datetime import datetime, timedelta
-from etls.podcast_etl import *
+from etls.podcast_etl import create_database, get_episodes, load_episodes, download_episodes
 
 
 # Define your DAG's default arguments
@@ -22,7 +22,7 @@ dag = DAG(
     catchup=False,
 )
 
-# Define your tasks using PythonOperator
+# Define tasks 
 create_database = PythonOperator(
     task_id='create_database',
     python_callable=create_database,
@@ -45,7 +45,7 @@ load_episodes = PythonOperator(
 download_episodes = PythonOperator(
     task_id='download_episodes_task',
     python_callable=download_episodes,
-    op_args=[get_episodes.output],  # Define input dependencies if needed
+    op_args=[get_episodes.output], 
     dag=dag,
 )
 

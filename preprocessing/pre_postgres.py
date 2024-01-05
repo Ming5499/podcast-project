@@ -12,7 +12,7 @@ def db_connect():
     return conn
 
 
-def create_fakedata():
+def create_fakedata_tables():
     #Create table
     conn = db_connect()
     cur = conn.cursor()
